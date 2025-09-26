@@ -13,23 +13,26 @@ def main():
     # Load data
     df = pd.read_excel(DATA_PATH, index_col=0)
 
-    # Show raw data
-    st.subheader('Raw Data Table')
-    st.dataframe(df)
 
-    # Occupation filter
-    occupations = df.index.tolist()
-    selected_occupations = st.multiselect('Select Occupations', occupations, default=occupations[:10])
-    filtered_df = df.loc[selected_occupations]
+    # Hideable filters using expander
+    with st.expander('Show/Hide Filters', expanded=False):
+        occupations = df.index.tolist()
+        selected_occupations = st.multiselect('Select Occupations', occupations, default=occupations[:10])
+        months = df.columns.tolist()
+        selected_months = st.multiselect('Select Months', months, default=months)
 
-    # Month filter
-    months = df.columns.tolist()
-    selected_months = st.multiselect('Select Months', months, default=months)
-    filtered_df = filtered_df[selected_months]
+    filtered_df = df.loc[selected_occupations][selected_months]
 
-    # Show filtered table
-    st.subheader('Filtered Data')
-    st.dataframe(filtered_df)
+    # Pie chart of permits by occupation (using Plotly)
+    import plotly.express as px
+    st.subheader('Permits Distribution by Occupation (Pie Chart)')
+    occupation_totals = filtered_df.sum(axis=1)
+    pie_df = pd.DataFrame({
+        'Occupation': occupation_totals.index,
+        'Permits': occupation_totals.values
+    })
+    fig = px.pie(pie_df, names='Occupation', values='Permits', title='Permits Distribution by Occupation')
+    st.plotly_chart(fig, use_container_width=True)
 
     # Show a chart (sum by month)
     st.subheader('Total Permits by Month')
@@ -37,7 +40,15 @@ def main():
 
     # Show a chart (sum by occupation)
     st.subheader('Total Permits by Occupation')
-    st.bar_chart(filtered_df.sum(axis=1))
+    st.bar_chart(occupation_totals)
+
+    # Show filtered table
+    st.subheader('Filtered Data')
+    st.dataframe(filtered_df)
+
+    # Show raw data at the end
+    st.subheader('Raw Data Table')
+    st.dataframe(df)
 
 if __name__ == '__main__':
     main()
