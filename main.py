@@ -12,25 +12,25 @@ def main():
 
     # Coalesce values in columns 0 and 1
     # These columns contain occupation codes and names, with some missing values
-    coalesced = df[df.columns[1]].combine_first(df[df.columns[0]])
+    occupations = df[df.columns[1]].combine_first(df[df.columns[0]])
 
     # Drop non-month columns
     df = drop_non_months(df)
 
-    # Add the coalesced occupation column back to the DataFrame
-    df['coalesced'] = coalesced
+    # Add the occupations column back to the DataFrame
+    df['occupations'] = occupations
 
-    # Convert all columns except 'coalesced' to numeric
-    df = convert_to_numeric(df, 'coalesced')
+    # Convert all columns except 'occupations' to numeric
+    df = convert_to_numeric(df, 'occupations')
 
-    # Group by coalesced values and sum numeric columns
-    df_grouped = df.groupby('coalesced').sum()
+    # Group by occupations values and sum numeric columns
+    df_grouped = df.groupby('occupations').sum()
 
-    # Keep only the last 24 columns (plus 'coalesced' if present)
-    cols_to_keep =  list(df_grouped.columns[-24:])
+    # Keep only the last 24 columns (plus 'occupations' if present)
+    cols_to_keep =  list(df_grouped.columns[-50:])
     df_grouped = df_grouped[cols_to_keep]
 
-    # Drop rows where the index (coalesced) does not match a four-digit code
+    # Drop rows where the index (occupations) does not match a four-digit code
     df_filtered = drop_non_occupation_rows(df_grouped)
 
     print('Final DataFrame:')
