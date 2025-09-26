@@ -33,6 +33,9 @@ def main():
     # Drop rows where the index (occupations) does not match a four-digit code
     df_filtered = drop_non_occupation_rows(df_grouped)
 
+    # Sort df_filtered by the sum of each row (descending)
+    df_filtered = df_filtered.assign(_sum=df_filtered.sum(axis=1)).sort_values('_sum', ascending=False).drop('_sum', axis=1)
+
     print('Final DataFrame:')
     print(df_filtered)
 
