@@ -12,25 +12,21 @@ def main():
 
     # Coalesce values in columns 0 and 1
     # These columns contain occupation codes and names, with some missing values
-    occupations = df[df.columns[1]].combine_first(df[df.columns[0]])
+    occupation = df[df.columns[1]].combine_first(df[df.columns[0]])
 
     # Drop non-month columns
     df = drop_non_months(df)
 
-    # Add the occupations column back to the DataFrame
-    df['occupations'] = occupations
+    # Add the occupation column back to the DataFrame
+    df['occupation'] = occupation
 
-    # Convert all columns except 'occupations' to numeric
-    df = convert_to_numeric(df, 'occupations')
+    # Convert all columns except 'occupation' to numeric
+    df = convert_to_numeric(df, 'occupation')
 
-    # Group by occupations values and sum numeric columns
-    df_grouped = df.groupby('occupations').sum()
+    # Group by occupation values and sum numeric columns
+    df_grouped = df.groupby('occupation').sum()
 
-    # Keep only the last 24 columns (plus 'occupations' if present)
-    cols_to_keep =  list(df_grouped.columns[-50:])
-    df_grouped = df_grouped[cols_to_keep]
-
-    # Drop rows where the index (occupations) does not match a four-digit code
+    # Drop rows where the index (occupation) does not match a four-digit code
     df_filtered = drop_non_occupation_rows(df_grouped)
 
     # Sort df_filtered by the sum of each row (descending)
@@ -39,7 +35,10 @@ def main():
     print('Final DataFrame:')
     print(df_filtered)
 
+    # Save the processed DataFrame to an Excel file
+    print('Saving processed DataFrame to data/processed_output.xlsx')
     df_filtered.to_excel('data/processed_output.xlsx', index=True)
+    print('Done!')
 
 
 if __name__ == "__main__":
