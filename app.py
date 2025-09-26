@@ -25,13 +25,13 @@ def main():
 
     # Pie chart of permits by occupation (using Plotly)
     import plotly.express as px
-    st.subheader('Permits Distribution by Occupation (Pie Chart)')
+    st.subheader('Permits Distribution by Occupation')
     occupation_totals = filtered_df.sum(axis=1)
     pie_df = pd.DataFrame({
         'Occupation': occupation_totals.index,
         'Permits': occupation_totals.values
     })
-    fig = px.pie(pie_df, names='Occupation', values='Permits', title='Permits Distribution by Occupation')
+    fig = px.pie(pie_df, names='Occupation', values='Permits')
     st.plotly_chart(fig, use_container_width=True)
 
     # Show a chart (sum by month)
