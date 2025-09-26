@@ -8,6 +8,7 @@ DATA_PATH = 'data/processed_output.xlsx'
 def main():
     st.title('Canadian Temporary Work Permits by Occupation and Month')
     st.markdown('This dashboard shows the number of temporary work permits granted, broken down by occupation and month.')
+    st.markdown('Data Source: [Government of Canada Open Data](https://open.canada.ca/data/en/dataset/360024f2-17e9-4558-bfc1-3616485d65b9)')
 
     # Load data
     df = pd.read_excel(DATA_PATH, index_col=0)
