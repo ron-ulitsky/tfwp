@@ -3,7 +3,7 @@ import pandas as pd
 
 # Load processed data
 # You can change this path if needed
-DATA_PATH = 'data/processed_output.xlsx'
+DATA_PATH = 'output/processed_output.xlsx'
 
 def main():
     st.title('Canadian Temporary Work Permits by Occupation and Month')

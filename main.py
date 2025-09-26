@@ -7,7 +7,7 @@ def main():
     # Load the Excel file
     # Retrieved 25 Sept 2025 from
     # https://open.canada.ca/data/en/dataset/360024f2-17e9-4558-bfc1-3616485d65b9/resource/c78d5eb3-9644-42c4-9c04-02dad020ea53
-    file_path = 'data/EN_ODP-TR-Work-TFWP_PT_NOC4_sign.xlsx'
+    file_path = 'raw_data/EN_ODP-TR-Work-TFWP_PT_NOC4_sign.xlsx'
     df = pd.read_excel(file_path, engine='openpyxl', header=None)
 
     # Coalesce values in columns 0 and 1
@@ -36,8 +36,8 @@ def main():
     print(df_filtered)
 
     # Save the processed DataFrame to an Excel file
-    print('Saving processed DataFrame to data/processed_output.xlsx')
-    df_filtered.to_excel('data/processed_output.xlsx', index=True)
+    print('Saving processed DataFrame to output/processed_output.xlsx')
+    df_filtered.to_excel('output/processed_output.xlsx', index=True)
     print('Done!')
 
 
