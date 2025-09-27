@@ -36,7 +36,13 @@ def main():
 
     # Show a chart (sum by month)
     st.subheader('Total Permits by Month')
-    st.bar_chart(filtered_df.sum(axis=0))
+    # Ensure months are sorted chronologically
+    month_totals = filtered_df.sum(axis=0).reindex(selected_months)
+
+    import plotly.graph_objects as go
+    fig_month = go.Figure(go.Bar(x=month_totals.index, y=month_totals.values))
+    fig_month.update_layout(xaxis_title='Month', yaxis_title='Total Permits')
+    st.plotly_chart(fig_month, use_container_width=True)
 
     # Show a chart (sum by occupation)
     st.subheader('Total Permits by Occupation')
