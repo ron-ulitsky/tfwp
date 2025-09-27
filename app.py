@@ -19,7 +19,16 @@ def main():
         occupations = df.index.tolist()
         selected_occupations = st.multiselect('Select Occupations', occupations, default=occupations[:10])
         months = df.columns.tolist()
-        selected_months = st.multiselect('Select Months', months, default=months)
+        # Use a select_slider for months (range selection)
+        selected_month_range = st.select_slider(
+            'Select Month Range',
+            options=months,
+            value=(months[0], months[-1])
+        )
+        # Get the indices for the selected range
+        start_idx = months.index(selected_month_range[0])
+        end_idx = months.index(selected_month_range[1])
+        selected_months = months[start_idx:end_idx+1]
 
     filtered_df = df.loc[selected_occupations][selected_months]
 
