@@ -50,11 +50,6 @@ def main():
     fig_month.update_layout(xaxis_title='Month', yaxis_title='Total Permits')
     st.plotly_chart(fig_month, use_container_width=True)
 
-    # Show a chart (sum by occupation)
-    st.subheader('Total Permits by Occupation')
-    occupation_totals = filtered_df.sum(axis=1)
-    st.bar_chart(occupation_totals)
-
     # Show filtered table
     st.subheader('Filtered Data')
     st.dataframe(filtered_df)
