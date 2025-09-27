@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-from maps.noc import major_group_names
 
 # Load processed data
 # You can change this path if needed
