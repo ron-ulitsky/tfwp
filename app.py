@@ -5,6 +5,9 @@ from widgets.permits_by_month import permits_by_month
 from widgets.sidebar import sidebar_filters
 from widgets.tables.filtered import filtered_table
 from widgets.tables.raw import raw_data_table
+from widgets.line_chart import line_chart_by_broad_category_over_time
+from widgets.stacked_bar_chart import stacked_bar_chart_by_broad_category_over_time
+from config import SHOW_PIE_CHART, SHOW_PERMITS_BY_MONTH, SHOW_LINE_CHART, SHOW_STACKED_BAR_CHART
 
 # Load processed data
 # You can change this path if needed
@@ -44,13 +47,21 @@ def main():
 
     filtered_df = df.loc[selected_occupations][selected_months]
 
-    
-    pie_chart_by_broad_category(filtered_df)
+    # Show charts and tables
 
-    permits_by_month(filtered_df, selected_months)
+    if SHOW_PIE_CHART:
+        pie_chart_by_broad_category(filtered_df)
+
+    if SHOW_LINE_CHART:
+        line_chart_by_broad_category_over_time(filtered_df)
+
+    if SHOW_STACKED_BAR_CHART:
+        stacked_bar_chart_by_broad_category_over_time(filtered_df)
+
+    if SHOW_PERMITS_BY_MONTH:
+        permits_by_month(filtered_df, selected_months)
 
     filtered_table(filtered_df)
-
     raw_data_table(df)
 
 if __name__ == '__main__':
